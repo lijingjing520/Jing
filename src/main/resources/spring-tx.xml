@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <!-- 通知 将事务加入指定的方法 add* del* update* -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!-- 对那些方法配置声明式事务 通知 -->
+            <tx:method name="add*" isolation="DEFAULT" propagation="REQUIRED"
+                       read-only="false" rollback-for="Exception" />
+            <tx:method name="del*" isolation="DEFAULT" propagation="REQUIRED"
+                       read-only="false" rollback-for="Exception" />
+            <tx:method name="update*" isolation="DEFAULT" propagation="REQUIRED"
+                       read-only="false" rollback-for="Exception" />
+        </tx:attributes>
+    </tx:advice>
+    <!-- 用AOP将通知切入方法 切入点 PointCut 将事务切入指定的包指定的类指定的方法 -->
+    <aop:config>
+        <!-- 第一星号代表 任意的返回值 第二个星号代表 dao 包下任意的类 第三个星号代表任意类下的任意方法 （..）代表方法的任意参数 -->
+        <aop:pointcut expression="execution(* com.jingjing.Dao.*.*(..))"
+                      id="mypointcut" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="mypointcut" />
+    </aop:config>
+</beans>

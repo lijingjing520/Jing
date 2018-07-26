@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 用spring核心配置文件来引入 spring-mybatis.xml，spring-tx.xml配置文件 注意次序 -->
+    <import resource="spring-mybatis.xml"/>
+    <import resource="spring-tx.xml"/>
+</beans>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingjing.Dao.ProductDao">
+    <insert id="addProduct" parameterType="Product">
+  insert into bk_product(product_id,product_name,product_img,product_price,product_discription,product_type,product_status )values(#{product_id,jdbcType=VARCHAR},#{product_name,jdbcType=VARCHAR},#{product_img,jdbcType=VARCHAR},#{product_price},#{product_discription,jdbcType=VARCHAR},#{product_type,jdbcType=VARCHAR},1);
+  </insert>
+</mapper>
